@@ -4,6 +4,7 @@ import CardExpenseSummary from "./CardExpenseSummary";
 import CardPopularProducts from "./CardPopularProducts";
 import CardPurchaseSummary from "./CardPurchaseSummary";
 import CardSalesSummary from "./CardSalesSummary";
+import StatCard from "./StatCard";
 
 const Dashboard = () => {
   return (
@@ -12,9 +13,9 @@ const Dashboard = () => {
       <CardSalesSummary />
       <CardPurchaseSummary />
       <CardExpenseSummary />
-      {/* <div className="md:row-span-1 xl:row-span-2 bg-gray-500" />
-      <div className="md:row-span-1 xl:row-span-2 bg-gray-500" />
-      <div className="md:row-span-1 xl:row-span-2 bg-gray-500" /> */}
+      <StatCard />
+      <StatCard />
+      <StatCard />
     </div>
   );
 };
