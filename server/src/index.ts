@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 
 /* ROUTE IMPORT */
 import dashboardRoutes from "./routes/dashboardRoutes"
+import productRoutes from "./routes/productRoutes"
 
 // Route imports
 
@@ -24,6 +25,7 @@ app.use(cors());
 
 // Routes
 app.use("/dashboard", dashboardRoutes);
+app.use("/products", productRoutes);
 
 // Server
 const port = process.env.PORT || 3001;
