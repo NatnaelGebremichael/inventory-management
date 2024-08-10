@@ -12,6 +12,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 /* ROUTE IMPORT */
 const dashboardRoutes_1 = __importDefault(require("./routes/dashboardRoutes"));
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 // Route imports
 // Configurations
 dotenv_1.default.config();
@@ -26,6 +27,7 @@ app.use((0, cors_1.default)());
 // Routes
 app.use("/dashboard", dashboardRoutes_1.default);
 app.use("/products", productRoutes_1.default);
+app.use("/users", userRoutes_1.default);
 // Server
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
