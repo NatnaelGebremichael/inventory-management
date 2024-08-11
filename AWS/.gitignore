@@ -1,0 +1,18 @@
+# Node.js
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# AWS SAM
+.aws-sam/
+
+# Environment and IDE files
+.env
+.vscode/
+.idea/
+
+# Ec2 Key
+inventory-management-key.pem

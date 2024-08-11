@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "prod-inventory-management-vpc-stack"
+resolve_s3 = true
+s3_prefix = "prod-inventory-management-vpc-stack"
+region = "af-south-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "ProjectName=\"InventoryManagement\""
+image_repositories = []

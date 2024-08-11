@@ -1,0 +1,11 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "prod-inventory-management-ec2-stack"
+resolve_s3 = true
+s3_prefix = "prod-inventory-management-ec2-stack"
+region = "af-south-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "ProjectName=\"InventoryManagement\" VPCId=\"vpc-0a60b5a8e7f8295c5\" PublicSubnetId=\"subnet-03352c77bb6c94a04\" KeyPairName=\"inventory-management-key\""
+image_repositories = []
+disable_rollback = true

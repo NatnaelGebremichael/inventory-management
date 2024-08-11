@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: EC2 Instance for Inventory Management Application Backend
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: InventoryManagement
+    Description: Name of the project or application
+
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID where the EC2 instance will be launched
+
+  PublicSubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Public Subnet ID where the EC2 instance will be launched
+
+  KeyPairName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+
+Mappings:
+  RegionMap:
+    af-south-1:
+      AMI: ami-0e88380ff49065103
+
+Resources:
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: public-inventory-management-sg-ec2
+      GroupDescription: Allow SSH, HTTP, and HTTPS traffic
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPCId
+      Tags:
+        - Key: Name
+          Value: !Sub ${ProjectName}-EC2-SecurityGroup
+        - Key: Project
+          Value: !Ref ProjectName
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap [RegionMap, !Ref 'AWS::Region', AMI]
+      InstanceType: t3.micro
+      KeyName: !Ref KeyPairName
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: 
+            - !Ref EC2SecurityGroup
+          SubnetId: !Ref PublicSubnetId
+      Tags: 
+        - Key: Name
+          Value: inventory-management-ec2-backend
+        - Key: Project
+          Value: !Ref ProjectName
+
+Outputs:
+  InstanceId:
+    Description: ID of the EC2 instance
+    Value: !Ref EC2Instance
+  PublicDNS:
+    Description: Public DNS name of the EC2 instance
+    Value: !GetAtt EC2Instance.PublicDnsName
+  PublicIP:
+    Description: Public IP address of the EC2 instance
+    Value: !GetAtt EC2Instance.PublicIp
