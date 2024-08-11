@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Product {
+  productId: string;
     name: string;
     price: number;
     rating?: number;
@@ -12,6 +13,13 @@ export interface Product {
     price: number;
     rating?: number;
     stockQuantity: number;
+  }
+
+  export interface Sale {
+    productId: string;
+    quantity: number;
+    unitPrice: number;
+    totalAmount: number;
   }
   
   export interface SalesSummary {
@@ -79,6 +87,14 @@ export const api = createApi({
           }),
           invalidatesTags: ["Products"]
         }),
+        createSale: build.mutation<void, Sale[]>({
+          query: (sales) => ({
+            url: '/sales',
+            method: 'POST',
+            body: sales,
+          }),
+          invalidatesTags: ['Products', 'DashboardMetrics'],
+        }),
         getUsers: build.query<User[], void>({
           query: () => "/users",
           providesTags: ["Users"]         
@@ -90,4 +106,11 @@ export const api = createApi({
     }),
 });
 
-export const { useGetDashboardMetricsQuery, useGetProductsQuery, useCreateProductMutation, useGetUsersQuery, useGetExpensesByCategoryQuery } = api;
+export const { 
+  useGetUsersQuery, 
+  useGetProductsQuery, 
+  useCreateSaleMutation,  
+  useCreateProductMutation, 
+  useGetDashboardMetricsQuery, 
+  useGetExpensesByCategoryQuery, 
+} = api;

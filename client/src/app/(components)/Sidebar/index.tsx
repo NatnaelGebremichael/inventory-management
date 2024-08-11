@@ -1,7 +1,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-import { Archive, CircleDollarSign, Clipboard, Layout, LucideIcon, Menu, SlidersHorizontal, Users } from "lucide-react";
+import { Archive, CircleDollarSign, Clipboard, Layout, LucideIcon, Menu, SlidersHorizontal, Users, ShoppingCart, QrCode } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -102,6 +102,18 @@ const Sidebar = () => {
           href="/products"
           icon={Clipboard}
           label="Products"
+          isCollapsed={isSidebarCollapased}
+        />
+         <SidebarLink
+          href="/orders"
+          icon={ShoppingCart}
+          label="Orders"
+          isCollapsed={isSidebarCollapased}
+        />
+         <SidebarLink
+          href="/barcode"
+          icon={QrCode}
+          label="Barcode"
           isCollapsed={isSidebarCollapased}
         />
          <SidebarLink
