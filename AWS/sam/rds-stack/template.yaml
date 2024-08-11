@@ -1,0 +1,105 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: RDS Stack for Inventory Management Application
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: InventoryManagement
+    Description: Name of the project or application
+
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID where RDS will be deployed
+
+  PrivateSubnet1Id:
+    Type: AWS::EC2::Subnet::Id
+    Description: First private subnet ID for RDS
+
+  PrivateSubnet2Id:
+    Type: AWS::EC2::Subnet::Id
+    Description: Second private subnet ID for RDS
+
+  DBMasterUsername:
+    Type: String
+    Default: NGebremichael
+    Description: Master username for the RDS instance
+
+  DBMasterPassword:
+    Type: String
+    NoEcho: true
+    Description: Master password for the RDS instance
+
+  EC2SecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security Group ID of the public EC2 instances
+
+Resources:
+  RDSSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: RDS Subnet Group for Inventory Management
+      SubnetIds:
+        - !Ref PrivateSubnet1Id
+        - !Ref PrivateSubnet2Id
+      Tags:
+        - Key: Name
+          Value: !Sub ${ProjectName}-rds-subnet-group
+        - Key: Project
+          Value: !Ref ProjectName
+
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${ProjectName}-rds-security-group
+      GroupDescription: Security group for RDS instance
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref EC2SecurityGroupId
+      Tags:
+        - Key: Name
+          Value: !Sub ${ProjectName}-rds-security-group
+        - Key: Project
+          Value: !Ref ProjectName
+
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: prodInventoryManagement
+      Engine: postgres
+      EngineVersion: 16.4 # You can adjust this version as needed
+      MasterUsername: !Ref DBMasterUsername
+      MasterUserPassword: !Ref DBMasterPassword
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: 20
+      MaxAllocatedStorage: 20
+      PubliclyAccessible: false
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      DBSubnetGroupName: !Ref RDSSubnetGroup
+      AvailabilityZone: af-south-1a
+      BackupRetentionPeriod: 0
+      MultiAZ: false
+      StorageType: gp2
+      StorageEncrypted: false
+      Tags:
+        - Key: Name
+          Value: !Sub ${ProjectName}-rds-inventory-management
+        - Key: Project
+          Value: !Ref ProjectName
+
+Outputs:
+  RDSEndpoint:
+    Description: Endpoint of the RDS instance
+    Value: !GetAtt RDSInstance.Endpoint.Address
+
+  RDSPort:
+    Description: Port of the RDS instance
+    Value: !GetAtt RDSInstance.Endpoint.Port
+
+  RDSSecurityGroupId:
+    Description: ID of the RDS Security Group
+    Value: !Ref RDSSecurityGroup

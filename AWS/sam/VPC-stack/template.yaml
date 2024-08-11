@@ -52,6 +52,21 @@ Resources:
           Value: !Ref ProjectName
         - Key: Environment
           Value: Production
+          
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: af-south-1b
+      CidrBlock: 10.0.3.0/24
+      MapPublicIpOnLaunch: false
+      Tags: 
+        - Key: Name
+          Value: !Sub ${ProjectName}-PrivateSubnet2
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: Environment
+          Value: Production
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -114,6 +129,12 @@ Resources:
       RouteTableId: !Ref PrivateRouteTable
       SubnetId: !Ref PrivateSubnet
 
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet2
+
 Outputs:
   VPCId:
     Description: VPC ID
@@ -132,3 +153,9 @@ Outputs:
     Value: !Ref PrivateSubnet
     Export:
       Name: !Sub ${ProjectName}-PrivateSubnet-ID
+  
+  PrivateSubnet2Id:
+    Description: Private Subnet2 ID
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: !Sub ${ProjectName}-PrivateSubnet2-ID

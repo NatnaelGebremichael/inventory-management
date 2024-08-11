@@ -67,7 +67,7 @@ echo "PORT=80" > .env
 - **Start the application:**
 
 ```
-npm start
+npm run dev
 ```
 
 ## 4. Install pm2 (Production Process Manager for Node.js)

@@ -1,0 +1,11 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "prod-inventory-management-rds-stack"
+resolve_s3 = true
+s3_prefix = "prod-inventory-management-rds-stack"
+region = "af-south-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "ProjectName=\"InventoryManagement\" VpcId=\"vpc-0a60b5a8e7f8295c5\" PrivateSubnet1Id=\"subnet-0893c973e287ce808\" PrivateSubnet2Id=\"subnet-0c2c9cb5b38175727\" DBMasterUsername=\"NGebremichael\" EC2SecurityGroupId=\"sg-0633cd56ccda4e3d6\""
+image_repositories = []
+disable_rollback = true
