@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useCreateSaleMutation } from "@/state/api";
 import { Product } from '@/state/api';
 import { SaleProduct, Sale } from './salesTypes';
-
 
 export const useSalesUpdate = () => {
   const [products, setProducts] = useState<SaleProduct[]>([]);
@@ -10,33 +9,32 @@ export const useSalesUpdate = () => {
   const [total, setTotal] = useState(0);
   const [createSale] = useCreateSaleMutation();
 
-  useEffect(() => {
-    calculateTotal();
+  const addProduct = useCallback((product: Product) => {
+    setProducts(prevProducts => [...prevProducts, { ...product, quantity: 1 }]);
+  }, []);
+
+  const removeProduct = useCallback((index: number) => {
+    setProducts(prevProducts => prevProducts.filter((_, i) => i !== index));
+  }, []);
+
+  const updateQuantity = useCallback((index: number, quantity: number) => {
+    setProducts(prevProducts => {
+      const updatedProducts = [...prevProducts];
+      updatedProducts[index] = { ...updatedProducts[index], quantity };
+      return updatedProducts;
+    });
+  }, []);
+
+  const calculateTotal = useCallback(() => {
+    const newTotal = products.reduce((sum, product) => sum + (product.price * product.quantity), 0);
+    setTotal(parseFloat(newTotal.toFixed(2)));
   }, [products]);
 
-  const addProduct = (product: Product) => {
-    setProducts([...products, { ...product, quantity: 1 }]);
-  };
+  useEffect(() => {
+    calculateTotal();
+  }, [calculateTotal]);
 
-  const removeProduct = (index: number) => {
-    const updatedProducts = products.filter((_, i) => i !== index);
-    setProducts(updatedProducts);
-  };
-
-  const updateQuantity = (index: number, quantity: number) => {
-    const updatedProducts = [...products];
-    updatedProducts[index].quantity = quantity;
-    setProducts(updatedProducts);
-  };
-
-  const calculateTotal = () => {
-    const newTotal = products.reduce((sum, product) => {
-      return sum + (product.price * product.quantity);
-    }, 0);
-    setTotal(parseFloat(newTotal.toFixed(2)));
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     try {
       const sales: Sale[] = products.map(product => ({
         productId: product.productId,
@@ -52,7 +50,7 @@ export const useSalesUpdate = () => {
     } catch (error) {
       setMessage('Error updating sales. Please try again.');
     }
-  };
+  }, [products, total, createSale]);
 
   return {
     products,

@@ -14,7 +14,7 @@ type productFormData = {
   stockQuantity: number;
 };
 
-function products() {
+function Products() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -108,4 +108,4 @@ function products() {
   );
 }
 
-export default products;
+export default Products;
