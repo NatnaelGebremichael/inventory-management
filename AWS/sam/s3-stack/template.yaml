@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: S3 Stack for Inventory Management Application
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: inventorymanagement
+    Description: Name of the project or application (use lowercase)
+
+Resources:
+  InventoryManagementBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "inventory-management-s3-stack"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
+      VersioningConfiguration:
+        Status: Suspended
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      Tags:
+        - Key: project
+          Value: !Ref ProjectName
+        - Key: environment
+          Value: production
+        - Key: managedby
+          Value: sam
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref InventoryManagementBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${InventoryManagementBucket}/*"
+
+Outputs:
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref InventoryManagementBucket
+    Export:
+      Name: !Sub ${AWS::StackName}-S3BucketName
+
+  BucketARN:
+    Description: ARN of the S3 bucket
+    Value: !GetAtt InventoryManagementBucket.Arn
+    Export:
+      Name: !Sub ${AWS::StackName}-S3BucketARN
