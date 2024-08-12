@@ -5,7 +5,7 @@ import Header from "@/app/(components)/Header";
 import { PlusCircle, SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
-import Rating from "../(components)/Rating";
+import Rating from "../../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
 
 type productFormData = {

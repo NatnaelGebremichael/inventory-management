@@ -4,7 +4,7 @@ import { setIsSidebarCollapsed, setIsDarkMode } from "@/state";
 import { Bell, Menu, Moon, Settings, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 const Navbar = () => {
   const dispatch = useAppDispatch();
 
@@ -64,13 +64,16 @@ const Navbar = () => {
           </div>
           <hr className="w-0 h-7 border border-solid border-l border-gray-300 mx-3" />
           <div className="flex items-center gap-3 cursor-pointer">
-            <Image
+            {/* <Image
               src="https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/profile.jpg"
               alt="Profile"
               width={50}
               height={50}
               className="rounded-full h-full object-cover"
-            />
+            /> */}
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
             <span className="font-semibold">Natu</span>
           </div>
         </div>

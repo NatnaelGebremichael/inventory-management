@@ -2,8 +2,15 @@
 
 import Navbar from "@/app/(components)/Navbar";
 import Sidebar from "@/app/(components)/Sidebar";
-import StoreProvider, { useAppSelector } from "./redux";
+import StoreProvider, { useAppSelector } from "../redux";
 import { useEffect } from "react";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isSidebarCollapased = useAppSelector(

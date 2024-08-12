@@ -1,7 +1,18 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-import { Archive, CircleDollarSign, Clipboard, Layout, LucideIcon, Menu, SlidersHorizontal, Users, ShoppingCart, QrCode } from "lucide-react";
+import {
+  Archive,
+  CircleDollarSign,
+  Clipboard,
+  Layout,
+  LucideIcon,
+  Menu,
+  SlidersHorizontal,
+  Users,
+  ShoppingCart,
+  QrCode,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -20,8 +31,7 @@ const SidebarLink = ({
   isCollapsed,
 }: SidebarLinkProps) => {
   const pathname = usePathname();
-  const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
+  const isActive = pathname === href || href === "/dashboard";
 
   return (
     <Link href={href}>
@@ -99,52 +109,52 @@ const Sidebar = () => {
           label="Dashboard"
           isCollapsed={isSidebarCollapased}
         />
-         <SidebarLink
+        <SidebarLink
           href="/inventory"
           icon={Archive}
           label="Inventory"
           isCollapsed={isSidebarCollapased}
         />
-         <SidebarLink
+        <SidebarLink
           href="/products"
           icon={Clipboard}
           label="Products"
           isCollapsed={isSidebarCollapased}
         />
-         <SidebarLink
+        <SidebarLink
           href="/orders"
           icon={ShoppingCart}
           label="Orders"
           isCollapsed={isSidebarCollapased}
         />
-         <SidebarLink
+        <SidebarLink
           href="/barcode"
           icon={QrCode}
           label="Barcode"
           isCollapsed={isSidebarCollapased}
         />
-         <SidebarLink
+        <SidebarLink
           href="/users"
           icon={Users}
           label="Users"
           isCollapsed={isSidebarCollapased}
         />
-         <SidebarLink
-          href="/settings"
-          icon={SlidersHorizontal}
-          label="Settings"
-          isCollapsed={isSidebarCollapased}
-        />
-         <SidebarLink
+        <SidebarLink
           href="/expenses"
           icon={CircleDollarSign}
           label="Expenses"
           isCollapsed={isSidebarCollapased}
         />
+        <SidebarLink
+          href="/settings"
+          icon={SlidersHorizontal}
+          label="Settings"
+          isCollapsed={isSidebarCollapased}
+        />
       </div>
 
       {/* Footer */}
-      <div className={`${isSidebarCollapased ? "hidden": "block"} mb-10`}>
+      <div className={`${isSidebarCollapased ? "hidden" : "block"} mb-10`}>
         <p className="text-center text-xs text-gray-500">
           &copy; 2024 NatuStock
         </p>
