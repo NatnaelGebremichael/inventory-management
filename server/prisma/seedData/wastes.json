@@ -1,0 +1,9 @@
+[
+    {
+      "id": "waste1",
+      "productId": "prod1",
+      "quantity": 1,
+      "reason": "Defective unit",
+      "timestamp": "2023-08-19T10:00:00Z"
+    }
+  ]

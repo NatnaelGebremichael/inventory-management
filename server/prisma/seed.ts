@@ -26,15 +26,19 @@ async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
   const orderedFileNames = [
-    "products.json",
-    "expenseSummary.json",
-    "sales.json",
-    "salesSummary.json",
-    "purchases.json",
-    "purchaseSummary.json",
     "users.json",
+    "categories.json",
+    "products.json",
+    "sales.json",
+    "purchases.json",
     "expenses.json",
-    "expenseByCategory.json",
+    "wastes.json",
+    "employments.json",
+    "leaves.json",
+    "salesSummary.json",
+    "purchaseSummary.json",
+    "expenseSummary.json",
+    "expenseByCategory.json"
   ];
 
   await deleteAllData(orderedFileNames);
@@ -51,6 +55,14 @@ async function main() {
     }
 
     for (const data of jsonData) {
+      // Add createdAt and updatedAt fields if they don't exist
+      if (!data.createdAt) {
+        data.createdAt = new Date();
+      }
+      if (!data.updatedAt) {
+        data.updatedAt = new Date();
+      }
+
       await model.create({
         data,
       });

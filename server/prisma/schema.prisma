@@ -3,7 +3,6 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,75 +12,187 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  userId String @id
-  name   String
-  email  String
+model User {
+  id         String      @id @default(uuid())
+  name       String
+  email      String      @unique
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  deletedAt  DateTime?
+  sales      Sale[]
+  purchases  Purchase[]
+  expenses   Expense[]
+  employment Employment?
 }
 
-model Products {
-  productId     String      @id
+model Product {
+  id            String     @id @default(uuid())
   name          String
   price         Float
   rating        Float?
   stockQuantity Int
-  Sales         Sales[]
-  Purchases     Purchases[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?
+  sales         Sale[]
+  purchases     Purchase[]
+  wastes        Waste[]
 }
 
-model Sales {
-  saleId      String   @id
+model Category {
+  id                        String                     @id @default(uuid())
+  name                      String                     @unique
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  deletedAt                 DateTime?
+  expenses                  Expense[]
+  expenseCategoryBreakdowns ExpenseCategoryBreakdown[]
+}
+
+model Sale {
+  id          String    @id @default(uuid())
   productId   String
+  userId      String
   timestamp   DateTime
   quantity    Int
   unitPrice   Float
   totalAmount Float
-  product     Products @relation(fields: [productId], references: [productId])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  product     Product   @relation(fields: [productId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
-model Purchases {
-  purchaseId String   @id
-  productId  String
-  timestamp  DateTime
-  quantity   Int
-  unitCost   Float
-  totalCost  Float
-  product    Products @relation(fields: [productId], references: [productId])
+model Purchase {
+  id                String           @id @default(uuid())
+  productId         String
+  userId            String
+  timestamp         DateTime
+  quantity          Int
+  unitCost          Float
+  totalCost         Float
+  paymentType       PaymentType
+  dueDate           DateTime?
+  isPaid            Boolean          @default(false)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  product           Product          @relation(fields: [productId], references: [id])
+  user              User             @relation(fields: [userId], references: [id])
+  purchaseSummary   PurchaseSummary? @relation(fields: [purchaseSummaryId], references: [id])
+  purchaseSummaryId String?
 }
 
-model Expenses {
-  expenseId String   @id
-  category  String
-  amount    Float
+model Expense {
+  id               String          @id @default(uuid())
+  userId           String
+  categoryId       String
+  amount           Float
+  timestamp        DateTime
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  deletedAt        DateTime?
+  user             User            @relation(fields: [userId], references: [id])
+  category         Category        @relation(fields: [categoryId], references: [id])
+  ExpenseSummary   ExpenseSummary? @relation(fields: [expenseSummaryId], references: [id])
+  expenseSummaryId String?
+}
+
+model Waste {
+  id        String    @id @default(uuid())
+  productId String
+  quantity  Int
+  reason    String
   timestamp DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  product   Product   @relation(fields: [productId], references: [id])
+}
+
+model Employment {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  startDate    DateTime
+  contractType String
+  documents    String[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  user         User      @relation(fields: [userId], references: [id])
+  leaves       Leave[]
+}
+
+model Leave {
+  id           String      @id @default(uuid())
+  employmentId String
+  type         LeaveType
+  startDate    DateTime
+  endDate      DateTime
+  status       LeaveStatus @default(PENDING)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  deletedAt    DateTime?
+  employment   Employment  @relation(fields: [employmentId], references: [id])
 }
 
 model SalesSummary {
-  salesSummaryId   String   @id
-  totalValue       Float
-  changePercentage Float?
-  date             DateTime
+  id               String   @id @default(uuid())
+  period           DateTime
+  totalSales       Float
+  totalQuantity    Int
+  averageOrderSize Float
+  sourceDataHash   String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model PurchaseSummary {
-  purchaseSummaryId String   @id
-  totalPurchased    Float
-  changePercentage  Float?
-  date              DateTime
+  id                String     @id @default(uuid())
+  period            DateTime
+  totalPurchases    Float
+  totalQuantity     Int
+  averageOrderValue Float
+  sourceDataHash    String
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  purchases         Purchase[] // This creates a connection to the source data
 }
 
 model ExpenseSummary {
-  expenseSummaryId  String              @id
-  totalExpenses     Float
-  date              DateTime
-  ExpenseByCategory ExpenseByCategory[]
+  id                 String                     @id @default(uuid())
+  period             DateTime
+  totalExpenses      Float
+  sourceDataHash     String
+  createdAt          DateTime                   @default(now())
+  updatedAt          DateTime                   @updatedAt
+  categoryBreakdowns ExpenseCategoryBreakdown[]
+  expenses           Expense[] // This creates a connection to the source data
 }
 
-model ExpenseByCategory {
-  expenseByCategoryId String         @id
-  expenseSummaryId    String
-  category            String
-  amount              BigInt
-  date                DateTime
-  expenseSummary      ExpenseSummary @relation(fields: [expenseSummaryId], references: [expenseSummaryId])
+model ExpenseCategoryBreakdown {
+  id               String         @id @default(uuid())
+  expenseSummaryId String
+  categoryId       String
+  amount           Float
+  expenseSummary   ExpenseSummary @relation(fields: [expenseSummaryId], references: [id])
+  category         Category       @relation(fields: [categoryId], references: [id])
+}
+
+enum PaymentType {
+  DEBT
+  PAID
+}
+
+enum LeaveType {
+  SICK
+  ANNUAL
+  OTHER
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

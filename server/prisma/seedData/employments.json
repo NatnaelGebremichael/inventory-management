@@ -1,0 +1,16 @@
+[
+    {
+      "id": "emp1",
+      "userId": "user1",
+      "startDate": "2023-01-01T00:00:00Z",
+      "contractType": "Full-time",
+      "documents": ["contract.pdf", "nda.pdf"]
+    },
+    {
+      "id": "emp2",
+      "userId": "user2",
+      "startDate": "2023-02-01T00:00:00Z",
+      "contractType": "Part-time",
+      "documents": ["contract.pdf"]
+    }
+  ]
