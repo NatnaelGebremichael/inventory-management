@@ -3,17 +3,32 @@ import fs from "fs";
 import path from "path";
 const prisma = new PrismaClient();
 
-async function deleteAllData(orderedFileNames: string[]) {
-  const modelNames = orderedFileNames.map((fileName) => {
-    const modelName = path.basename(fileName, path.extname(fileName));
-    return modelName.charAt(0).toUpperCase() + modelName.slice(1);
-  });
+async function deleteAllData() {
+  const deleteOrder = [
+    "ExpenseCategoryBreakdown",
+    "ExpenseSummary",
+    "PurchaseSummary",
+    "SalesSummary",
+    "Leave",
+    "Employment",
+    "Waste",
+    "Expense",
+    "Sale",
+    "Purchase",
+    "Product",
+    "Category",
+    "User"
+  ];
 
-  for (const modelName of modelNames) {
+  for (const modelName of deleteOrder) {
     const model: any = prisma[modelName as keyof typeof prisma];
     if (model) {
-      await model.deleteMany({});
-      console.log(`Cleared data from ${modelName}`);
+      try {
+        await model.deleteMany({});
+        console.log(`Cleared data from ${modelName}`);
+      } catch (error) {
+        console.error(`Error clearing data from ${modelName}:`, error);
+      }
     } else {
       console.error(
         `Model ${modelName} not found. Please ensure the model name is correctly specified.`
@@ -25,37 +40,39 @@ async function deleteAllData(orderedFileNames: string[]) {
 async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
-  const orderedFileNames = [
-    "users.json",
-    "categories.json",
-    "products.json",
-    "sales.json",
-    "purchases.json",
-    "expenses.json",
-    "wastes.json",
-    "employments.json",
-    "leaves.json",
-    "salesSummary.json",
-    "purchaseSummary.json",
-    "expenseSummary.json",
-    "expenseByCategory.json"
+  const seedFiles = [
+    { file: "users.json", model: "User" },
+    { file: "categories.json", model: "Category" },
+    { file: "products.json", model: "Product" },
+    { file: "sales.json", model: "Sale" },
+    { file: "purchases.json", model: "Purchase" },
+    { file: "expenses.json", model: "Expense" },
+    { file: "wastes.json", model: "Waste" },
+    { file: "employments.json", model: "Employment" },
+    { file: "leaves.json", model: "Leave" },
+    { file: "salesSummary.json", model: "SalesSummary" },
+    { file: "purchaseSummary.json", model: "PurchaseSummary" },
+    { file: "expenseSummary.json", model: "ExpenseSummary" },
+    { file: "expenseCategoryBreakdown.json", model: "ExpenseCategoryBreakdown" }
   ];
 
-  await deleteAllData(orderedFileNames);
+  await deleteAllData();
 
-  for (const fileName of orderedFileNames) {
-    const filePath = path.join(dataDirectory, fileName);
+  for (const { file, model } of seedFiles) {
+    const filePath = path.join(dataDirectory, file);
+    if (!fs.existsSync(filePath)) {
+      console.log(`File ${file} not found, skipping...`);
+      continue;
+    }
     const jsonData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    const modelName = path.basename(fileName, path.extname(fileName));
-    const model: any = prisma[modelName as keyof typeof prisma];
+    const prismaModel: any = prisma[model as keyof typeof prisma];
 
-    if (!model) {
-      console.error(`No Prisma model matches the file name: ${fileName}`);
+    if (!prismaModel) {
+      console.error(`No Prisma model matches the model name: ${model}`);
       continue;
     }
 
     for (const data of jsonData) {
-      // Add createdAt and updatedAt fields if they don't exist
       if (!data.createdAt) {
         data.createdAt = new Date();
       }
@@ -63,12 +80,16 @@ async function main() {
         data.updatedAt = new Date();
       }
 
-      await model.create({
-        data,
-      });
+      try {
+        await prismaModel.create({
+          data,
+        });
+      } catch (error) {
+        console.error(`Error creating ${model}:`, error);
+      }
     }
 
-    console.log(`Seeded ${modelName} with data from ${fileName}`);
+    console.log(`Seeded ${model} with data from ${file}`);
   }
 }
 
