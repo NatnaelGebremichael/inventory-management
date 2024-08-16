@@ -47,8 +47,8 @@ const Expenses = () => {
     const filtered: AggregatedData = expenses
       .filter((data: ExpenseByCategorySummary) => {
         const matchesCategory =
-          selectedCategory === "All" || data.category === selectedCategory;
-        const dataDate = parseDate(data.date);
+          selectedCategory === "All" || data.categoryName === selectedCategory;
+        const dataDate = parseDate(data.period);
         const matchesDate =
           !startDate ||
           !endDate ||
@@ -56,14 +56,14 @@ const Expenses = () => {
         return matchesCategory && matchesDate;
       })
       .reduce((acc: AggregatedData, data: ExpenseByCategorySummary) => {
-        const amount = parseInt(data.amount);
-        if (!acc[data.category]) {
-          acc[data.category] = { name: data.category, amount: 0 };
-          acc[data.category].color = `#${Math.floor(
+        const amount = parseFloat(data.amount);
+        if (!acc[data.categoryName]) {
+          acc[data.categoryName] = { name: data.categoryName, amount: 0 };
+          acc[data.categoryName].color = `#${Math.floor(
             Math.random() * 16777215
           ).toString(16)}`;
-          acc[data.category].amount += amount;
         }
+        acc[data.categoryName].amount += amount;
         return acc;
       }, {});
 
@@ -87,6 +87,7 @@ const Expenses = () => {
       </div>
     );
   }
+
 
   return (
     <div>

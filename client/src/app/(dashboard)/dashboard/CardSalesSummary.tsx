@@ -17,20 +17,19 @@ const CardSalesSummary = () => {
 
   const [timeframe, setTimeframe] = useState("weekly");
 
-  const totalValueSum =
-    salesData.reduce((acc, curr) => acc + curr.totalValue, 0) || 0;
+  const totalSalesSum =
+    salesData.reduce((acc, curr) => acc + curr.totalSales, 0) || 0;
 
-  const averageChangePercentage =
-    salesData.reduce((acc, curr, _, array) => {
-      return acc + curr.changePercentage! / array.length;
-    }, 0) || 0;
+  // Note: changePercentage is not available in the new data structure
+  // You might want to calculate this based on the previous period's data
+  const averageChangePercentage = 0; // This needs to be calculated differently
 
   const highestValueData = salesData.reduce((acc, curr) => {
-    return acc.totalValue > curr.totalValue ? acc : curr;
+    return acc.totalSales > curr.totalSales ? acc : curr;
   }, salesData[0] || {});
 
-  const highestValueDate = highestValueData.date
-    ? new Date(highestValueData.date).toLocaleDateString("en-US", {
+  const highestValueDate = highestValueData.period
+    ? new Date(highestValueData.period).toLocaleDateString("en-US", {
         month: "numeric",
         day: "numeric",
         year: "2-digit",
@@ -63,7 +62,7 @@ const CardSalesSummary = () => {
                 <p className="text-xs text-gray-400">Value</p>
                 <span className="text-2xl font-extrabold">
                   $
-                  {(totalValueSum / 1000000).toLocaleString("en", {
+                  {(totalSalesSum).toLocaleString("en", {
                     maximumFractionDigits: 2,
                   })}
                   m
@@ -93,7 +92,7 @@ const CardSalesSummary = () => {
               >
                 <CartesianGrid strokeDasharray="" vertical={false} />
                 <XAxis
-                  dataKey="date"
+                  dataKey="period"
                   tickFormatter={(value) => {
                     const date = new Date(value);
                     return `${date.getMonth() + 1}/${date.getDate()}`;
@@ -121,7 +120,7 @@ const CardSalesSummary = () => {
                   }}
                 />
                 <Bar
-                  dataKey="totalValue"
+                  dataKey="totalSales"
                   fill="#3182ce"
                   barSize={10}
                   radius={[10, 10, 0, 0]}
@@ -134,7 +133,7 @@ const CardSalesSummary = () => {
           <div>
             <hr />
             <div className="flex justify-between items-center mt-6 text-sm px-7 mb-4">
-              <p>{salesData.length || 0} days</p>
+              <p>{salesData.length || 0} periods</p>
               <p className="text-sm">
                 Highest Sales Date:{" "}
                 <span className="font-bold">{highestValueDate}</span>

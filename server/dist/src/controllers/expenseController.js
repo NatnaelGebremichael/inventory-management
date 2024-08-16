@@ -15,14 +15,26 @@ const prisma = new client_1.PrismaClient();
 const getExpensesByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const expenseByCategorySummaryRaw = yield prisma.expenseByCategory.findMany({
+            include: {
+                category: true,
+                expenseSummary: true,
+            },
             orderBy: {
-                date: "desc",
+                expenseSummary: {
+                    period: "desc",
+                },
             },
         });
-        const expenseByCategorySummary = expenseByCategorySummaryRaw.map((item) => (Object.assign(Object.assign({}, item), { amount: item.amount.toString() })));
+        const expenseByCategorySummary = expenseByCategorySummaryRaw.map((item) => ({
+            id: item.id,
+            categoryName: item.category.name,
+            amount: item.amount.toString(),
+            period: item.expenseSummary.period,
+        }));
         res.json(expenseByCategorySummary);
     }
     catch (error) {
+        console.error("Error retrieving expenses by category:", error);
         res.status(500).json({ message: "Error retrieving expenses by category" });
     }
 });

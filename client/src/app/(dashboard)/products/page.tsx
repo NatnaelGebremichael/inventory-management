@@ -8,10 +8,10 @@ import Image from "next/image";
 import Rating from "../../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
 
-type productFormData = {
+type ProductFormData = {
   name: string;
   price: number;
-  rating: number;
+  rating?: number;
   stockQuantity: number;
 };
 
@@ -26,7 +26,7 @@ function Products() {
   } = useGetProductsQuery(searchTerm);
 
   const [createProduct] = useCreateProductMutation();
-  const handleCreateProduct = async (productData: productFormData) => {
+  const handleCreateProduct = async (productData: ProductFormData) => {
     await createProduct(productData);
   };
 
@@ -71,39 +71,35 @@ function Products() {
 
       {/* BODY PRODUCTS LIST */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg-grid-col-3 gap-10 justify-between">
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          products.map((product) => (
-            <div
-              key={product.productId}
-              className="border shadow-md p-4 max-w-full w-full mx-auto"
-            >
-              <div className="flex flex-col items-center">
-                <Image
-                  src={`https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/${product.name}.png`}
-                  // src="https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/logo.png"
-                  alt={product.name}
-                  width={150}
-                  height={150}
-                  className="mb-3 rounded-2xl w-36 h-36"
-                />
-                <h3 className="text-lg text-gray-900 font-semibold">
-                  {product.name}
-                </h3>
-                <p className="text-gray-800"> ${product.price.toFixed(2)}</p>
-                <div className="text-sm text-gray-600 mt-1">
-                  Stock: {product.stockQuantity}
-                </div>
-                {product.rating && (
-                  <div className="flex items-center mt-2">
-                    <Rating rating={product.rating} />
-                  </div>
-                )}
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="border shadow-md p-4 max-w-full w-full mx-auto"
+          >
+            <div className="flex flex-col items-center">
+              <Image
+                src={`https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/${product.name}.png`}
+                // src="https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/logo.png"
+                alt={product.name}
+                width={150}
+                height={150}
+                className="mb-3 rounded-2xl w-36 h-36"
+              />
+              <h3 className="text-lg text-gray-900 font-semibold">
+                {product.name}
+              </h3>
+              <p className="text-gray-800"> ${product.price.toFixed(2)}</p>
+              <div className="text-sm text-gray-600 mt-1">
+                Stock: {product.stockQuantity}
               </div>
+              {product.rating !== undefined && (
+                <div className="flex items-center mt-2">
+                  <Rating rating={product.rating} />
+                </div>
+              )}
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
 
       {/* MODAL */}

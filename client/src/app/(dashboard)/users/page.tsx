@@ -5,7 +5,7 @@ import Header from "@/app/(components)/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const columns: GridColDef[] = [
-  { field: "userId", headerName: "ID", width: 250 },
+  { field: "id", headerName: "ID", width: 250 },
   { field: "name", headerName: "Name", width: 100 },
   { field: "email", headerName: "Email", width: 200 },
 ];
@@ -20,7 +20,7 @@ function Users() {
   if (isError || !users) {
     return (
       <div className="text-center text-red-500 py-4">
-        Failed to fetch products
+        Failed to fetch users
       </div>
     );
   }
@@ -31,7 +31,7 @@ function Users() {
       <DataGrid
         rows={users}
         columns={columns}
-        getRowId={(row) => row.userId}
+        getRowId={(row) => row.id}
         checkboxSelection
         className="bg-white shadow rounded-lg border border-gray-100 mt-5 !text-gray-700"
       />

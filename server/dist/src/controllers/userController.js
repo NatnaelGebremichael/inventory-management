@@ -14,11 +14,12 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield prisma.users.findMany();
+        const users = yield prisma.user.findMany();
         res.json(users);
     }
     catch (error) {
-        res.status(500).json({ Message: "Error retriving users" });
+        console.error("Error retrieving users:", error);
+        res.status(500).json({ message: "Error retrieving users" });
     }
 });
 exports.getUsers = getUsers;

@@ -40,13 +40,13 @@ model Product {
 }
 
 model Category {
-  id                        String                     @id @default(uuid())
-  name                      String                     @unique
-  createdAt                 DateTime                   @default(now())
-  updatedAt                 DateTime                   @updatedAt
+  id                        String              @id @default(uuid())
+  name                      String              @unique
+  createdAt                 DateTime            @default(now())
+  updatedAt                 DateTime            @updatedAt
   deletedAt                 DateTime?
   expenses                  Expense[]
-  expenseCategoryBreakdowns ExpenseCategoryBreakdown[]
+  expenseCategoryBreakdowns ExpenseByCategory[]
 }
 
 model Sale {
@@ -161,21 +161,23 @@ model PurchaseSummary {
 }
 
 model ExpenseSummary {
-  id                 String                     @id @default(uuid())
+  id                 String              @id @default(uuid())
   period             DateTime
   totalExpenses      Float
   sourceDataHash     String
-  createdAt          DateTime                   @default(now())
-  updatedAt          DateTime                   @updatedAt
-  categoryBreakdowns ExpenseCategoryBreakdown[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  categoryBreakdowns ExpenseByCategory[]
   expenses           Expense[] // This creates a connection to the source data
 }
 
-model ExpenseCategoryBreakdown {
+model ExpenseByCategory {
   id               String         @id @default(uuid())
   expenseSummaryId String
   categoryId       String
   amount           Float
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   expenseSummary   ExpenseSummary @relation(fields: [expenseSummaryId], references: [id])
   category         Category       @relation(fields: [categoryId], references: [id])
 }

@@ -17,6 +17,16 @@ const CardPurchaseSummary = () => {
 
   const lastDataPoint = purchaseData[purchaseData.length - 1] || null;
 
+  // Calculate change percentage
+  const calculateChangePercentage = () => {
+    if (purchaseData.length < 2) return 0;
+    const lastValue = purchaseData[purchaseData.length - 1].totalPurchases;
+    const previousValue = purchaseData[purchaseData.length - 2].totalPurchases;
+    return ((lastValue - previousValue) / previousValue) * 100;
+  };
+
+  const changePercentage = calculateChangePercentage();
+
   return (
     <div className="flex flex-col justify-between row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl">
       {isLoading ? (
@@ -39,23 +49,23 @@ const CardPurchaseSummary = () => {
               <div className="flex items-center">
                 <p className="text-2xl font-bold">
                   {lastDataPoint
-                    ? numeral(lastDataPoint.totalPurchased).format("$0.00a")
+                    ? numeral(lastDataPoint.totalPurchases).format("$0.00a")
                     : "0"}
                 </p>
                 {lastDataPoint && (
                   <p
                     className={`text-sm ${
-                      lastDataPoint.changePercentage! >= 0
+                      changePercentage >= 0
                         ? "text-green-500"
                         : "text-red-500"
                     } flex ml-3`}
                   >
-                    {lastDataPoint.changePercentage! >= 0 ? (
+                    {changePercentage >= 0 ? (
                       <TrendingUp className="w-5 h-5 mr-1" />
                     ) : (
                       <TrendingDown className="w-5 h-5 mr-1" />
                     )}
-                    {Math.abs(lastDataPoint.changePercentage!)}%
+                    {Math.abs(changePercentage).toFixed(2)}%
                   </p>
                 )}
               </div>
@@ -66,7 +76,7 @@ const CardPurchaseSummary = () => {
                 data={purchaseData}
                 margin={{ top: 0, right: 0, left: -50, bottom: 45 }}
               >
-                <XAxis dataKey="date" tick={false} axisLine={false} />
+                <XAxis dataKey="period" tick={false} axisLine={false} />
                 <YAxis tickLine={false} tick={false} axisLine={false} />
                 <Tooltip
                   formatter={(value: number) => [
@@ -83,7 +93,7 @@ const CardPurchaseSummary = () => {
                 />
                 <Area
                   type="linear"
-                  dataKey="totalPurchased"
+                  dataKey="totalPurchases"
                   stroke="#8884d8"
                   fill="#8884d8"
                   dot={true}

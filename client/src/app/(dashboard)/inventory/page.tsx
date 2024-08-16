@@ -5,21 +5,21 @@ import Header from "@/app/(components)/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const columns: GridColDef[] = [
-  { field: "productId", headerName: "ID", width: 90 },
+  { field: "id", headerName: "ID", width: 90 },
   { field: "name", headerName: "Product Name", width: 200 },
   {
     field: "price",
     headerName: "Price",
     width: 110,
     type: "number",
-    valueGetter: (value, row) => `$${row.price}`,
+    valueGetter: (value, row) => `$${row.price}`, //(params) => params.value ? `$${params.value}` : 'N/A',
   },
   {
     field: "rating",
     headerName: "Rating",
     width: 110,
     type: "number",
-    valueGetter: (value, row) => (row.rating ? row.rating : "N/A"),
+    valueGetter: (value, row) => (row.rating ? row.rating : "N/A"), //(params) => params.value !== undefined ? params.value : "N/A",
   },
   {
     field: "stockQuantity",
@@ -50,7 +50,7 @@ function Inventory() {
       <DataGrid
         rows={products}
         columns={columns}
-        getRowId={(row) => row.productId}
+        getRowId={(row) => row.id}
         checkboxSelection
         className="bg-white shadow rounded-lg border border-gray-100 mt-5 !text-gray-700"
       />

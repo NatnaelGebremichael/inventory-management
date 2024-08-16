@@ -10,19 +10,20 @@ export const getProducts = async (
 ): Promise<void> => {
     try {
          const search = req.query.search?.toString();
-         const products = await prisma.products.findMany({
+         const products = await prisma.product.findMany({
             where: {
                 name: {
-                    contains: search
+                    contains: search,
+                    mode: 'insensitive', // This makes the search case-insensitive
                 }
             }
-         })   
+         });   
          res.json(products);
-
     } catch (error) {
-        res.status(500).json({ message: "Error retriving products"})
+        console.error("Error retrieving products:", error);
+        res.status(500).json({ message: "Error retrieving products" });
     }
-}
+};
 
 export const createProduct = async (
     req: Request, 
@@ -30,20 +31,18 @@ export const createProduct = async (
 ): Promise<void> => {
     try {
          const { name, price, rating, stockQuantity } = req.body;
-         const productId: string = uuidv4();
-
-         const product = await prisma.products.create({
+         
+         const product = await prisma.product.create({
             data: {
-                productId,
                 name,
                 price,
                 rating,
                 stockQuantity
             }
-         })
+         });
          res.status(201).json(product);
-         
     } catch (error) {
-        res.status(500).json({ message: "Error creating product"})
+        console.error("Error creating product:", error);
+        res.status(500).json({ message: "Error creating product" });
     }
-}
+};

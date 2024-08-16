@@ -21,8 +21,8 @@ const CardExpenseSummary = () => {
 
   const expenseSums = expenseByCategorySummary.reduce(
     (acc: ExpenseSums, item: ExpenseByCategorySummary) => {
-      const category = item.category + " Expenses";
-      const amount = parseInt(item.amount, 10);
+      const category = item.categoryName + " Expenses";
+      const amount = parseFloat(item.amount);
       if (!acc[category]) acc[category] = 0;
       acc[category] += amount;
       return acc;
@@ -52,7 +52,7 @@ const CardExpenseSummary = () => {
           {/* HEADER */}
           <div>
             <h2 className="text-lg font-semibold mb-2 px-7 pt-5">
-              Amy's Expense Summary
+              Expense Summary
             </h2>
             <hr />
           </div>
@@ -110,7 +110,7 @@ const CardExpenseSummary = () => {
               <div className="mt-3 flex justify-between items-center px-7 mb-4">
                 <div className="pt-2">
                   <p className="text-sm">
-                    Average:{" "}
+                    Total Expenses:{" "}
                     <span className="font-semibold">
                       ${expenseSummary.totalExpenses.toFixed(2)}
                     </span>
