@@ -49,15 +49,13 @@ const CardPurchaseSummary = () => {
               <div className="flex items-center">
                 <p className="text-2xl font-bold">
                   {lastDataPoint
-                    ? numeral(lastDataPoint.totalPurchases).format("$0.00a")
+                    ? numeral(lastDataPoint.totalPurchases).format("")
                     : "0"}
                 </p>
                 {lastDataPoint && (
                   <p
                     className={`text-sm ${
-                      changePercentage >= 0
-                        ? "text-green-500"
-                        : "text-red-500"
+                      changePercentage >= 0 ? "text-green-500" : "text-red-500"
                     } flex ml-3`}
                   >
                     {changePercentage >= 0 ? (

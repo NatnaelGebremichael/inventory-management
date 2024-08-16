@@ -11,6 +11,10 @@ export interface Product {
   deletedAt?: string;
 }
 
+export interface PopularProduct extends Product {
+  totalSold: number;
+}
+
 export interface NewProduct {
   name: string;
   price: number;
@@ -61,7 +65,7 @@ export interface ExpenseByCategorySummary {
 }
 
 export interface DashboardMetrics {
-  popularProducts: Product[];
+  popularProducts: PopularProduct[];
   salesSummary: SalesSummary[];
   purchaseSummary: PurchaseSummary[];
   expenseSummary: ExpenseSummary[];

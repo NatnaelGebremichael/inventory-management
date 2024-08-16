@@ -11,9 +11,28 @@ export const getDashboardMetrics = async (
     const popularProducts = await prisma.product.findMany({
       take: 15,
       orderBy: {
-        stockQuantity: "desc",
+        sales: {
+          _count: 'desc'
+        }
       },
+      include: {
+        _count: {
+          select: { sales: true }
+        },
+        sales: {
+          select: {
+            quantity: true
+          }
+        }
+      }
     });
+
+    const popularProductsWithSales = popularProducts.map(product => ({
+      ...product,
+      totalSold: product.sales.reduce((sum, sale) => sum + sale.quantity, 0),
+      _count: undefined,
+      sales: undefined
+    }));
 
     const salesSummary = await prisma.salesSummary.findMany({
       take: 5,
@@ -57,7 +76,7 @@ export const getDashboardMetrics = async (
     }));
 
     res.json({
-      popularProducts,
+      popularProducts: popularProductsWithSales,
       salesSummary,
       purchaseSummary,
       expenseSummary,

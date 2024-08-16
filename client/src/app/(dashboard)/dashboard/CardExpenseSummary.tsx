@@ -41,7 +41,7 @@ const CardExpenseSummary = () => {
     (acc, category: { value: number }) => acc + category.value,
     0
   );
-  const formattedTotalExpenses = totalExpenses.toFixed(2);
+  const formattedTotalExpenses = totalExpenses;
 
   return (
     <div className="row-span-3 bg-white shadow-md rounded-2xl flex flex-col justify-between">

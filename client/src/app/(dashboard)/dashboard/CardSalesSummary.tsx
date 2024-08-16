@@ -1,6 +1,6 @@
 import { useGetDashboardMetricsQuery } from "@/state/api";
 import { TrendingUp } from "lucide-react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -13,16 +13,33 @@ import {
 
 const CardSalesSummary = () => {
   const { data, isLoading, isError } = useGetDashboardMetricsQuery();
-  const salesData = data?.salesSummary || [];
 
   const [timeframe, setTimeframe] = useState("weekly");
 
-  const totalSalesSum =
-    salesData.reduce((acc, curr) => acc + curr.totalSales, 0) || 0;
+  const salesData = useMemo(() => {
+    if (!data?.salesSummary) return [];
+    
+    const sortedData = [...data.salesSummary].sort((a, b) => 
+      new Date(a.period).getTime() - new Date(b.period).getTime()
+    );
 
-  // Note: changePercentage is not available in the new data structure
-  // You might want to calculate this based on the previous period's data
-  const averageChangePercentage = 0; // This needs to be calculated differently
+    return sortedData.map((sale, index, array) => {
+      if (index === 0) {
+        return { ...sale, changePercentage: 0 };
+      }
+      const previousSale = array[index - 1];
+      const changePercentage = ((sale.totalSales - previousSale.totalSales) / previousSale.totalSales) * 100;
+      return { ...sale, changePercentage };
+    });
+  }, [data]);
+
+  const totalSalesSum = useMemo(() => 
+    salesData.reduce((acc, curr) => acc + curr.totalSales, 0) || 0
+  , [salesData]);
+
+  const averageChangePercentage = useMemo(() => 
+    salesData.reduce((acc, curr) => acc + curr.changePercentage, 0) / (salesData.length - 1) || 0
+  , [salesData]);
 
   const highestValueData = salesData.reduce((acc, curr) => {
     return acc.totalSales > curr.totalSales ? acc : curr;
@@ -65,7 +82,6 @@ const CardSalesSummary = () => {
                   {(totalSalesSum).toLocaleString("en", {
                     maximumFractionDigits: 2,
                   })}
-                  m
                 </span>
                 <span className="text-green-500 text-sm ml-2">
                   <TrendingUp className="inline w-4 h-4 mr-1" />
@@ -100,7 +116,7 @@ const CardSalesSummary = () => {
                 />
                 <YAxis
                   tickFormatter={(value) => {
-                    return `$${(value / 1000000).toFixed(0)}m`;
+                    return `${(value / 1000).toFixed(0)}K`;
                   }}
                   tick={{ fontSize: 12, dx: -1 }}
                   tickLine={false}

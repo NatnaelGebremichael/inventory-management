@@ -26,7 +26,6 @@ const CardPopularProducts = () => {
                 <div className="flex items-center gap-3">
                   <Image
                     src={`https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/${product.name}.png`}
-                    // src="https://inventory-management-s3-stack.s3.af-south-1.amazonaws.com/logo.png"
                     alt={product.name}
                     width={48}
                     height={48}
@@ -50,7 +49,7 @@ const CardPopularProducts = () => {
                   <button className="p-2 rounded-full bg-blue-100 text-blue-600 mr-2">
                     <ShoppingBag className="w-4 h-4" />
                   </button>
-                  {Math.round(product.stockQuantity / 1000)}k Sold
+                  {product.totalSold.toLocaleString()} Sold
                 </div>
               </div>
             ))}
