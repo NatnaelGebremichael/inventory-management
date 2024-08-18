@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useCreateProductMutation, useGetUsersQuery } from "@/state/api";
+import { useCreateProductMutation } from "@/state/api";
 import { TextField, Button } from "@mui/material";
 import { Product, NewProduct } from "@/state/api";
 import { useUser } from "@clerk/clerk-react";
+import { useParams } from "next/navigation";
 
 interface ManualEntryProps {
   onAdd: (product: Product) => void;
@@ -24,12 +25,11 @@ const ManualEntry: React.FC<ManualEntryProps> = ({ onAdd }) => {
       return <p>User is not signed in</p>;
     }
 
-    // Access user ID
-    const userId = user?.id;
-
+    const params = useParams();
+    const organizationID = params.organizationId as string;
     e.preventDefault();
     const newProduct: NewProduct = {
-      organizationId: userId,
+      organizationId: organizationID,
       name,
       price: parseFloat(price),
       stockQuantity: parseInt(stockQuantity),

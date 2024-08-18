@@ -7,8 +7,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Rating from "../../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
+import { useParams } from "next/navigation";
 
 type ProductFormData = {
+  organizationId: string;
   name: string;
   price: number;
   rating?: number;
@@ -16,6 +18,7 @@ type ProductFormData = {
 };
 
 function Products() {
+  const params = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,8 +28,11 @@ function Products() {
     isError,
   } = useGetProductsQuery(searchTerm);
 
+  const organizationID = params.organizationId as string;
   const [createProduct] = useCreateProductMutation();
+
   const handleCreateProduct = async (productData: ProductFormData) => {
+    productData.organizationId = organizationID;
     await createProduct(productData);
   };
 

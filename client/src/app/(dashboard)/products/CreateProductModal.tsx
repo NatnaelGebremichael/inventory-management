@@ -1,11 +1,13 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Header from "@/app/(components)/Header";
+import { useParams } from "next/navigation";
 
 type ProductFormData = {
+  organizationId: string,
   name: string;
   price: number;
+  rating?: number;
   stockQuantity: number;
-  rating: number;
 };
 
 type CreateProductModalProps = {
@@ -14,12 +16,15 @@ type CreateProductModalProps = {
   onCreate: (formData: ProductFormData) => void;
 };
 
+const params = useParams();
+const organizationID = params.organizationId as string;
 const CreateProductModal = ({
   isOpen,
   onClose,
   onCreate,
 }: CreateProductModalProps) => {
   const [formData, setFormData] = useState({
+    organizationId: organizationID,
     name: "",
     price: 0,
     stockQuantity: 0,
@@ -31,7 +36,7 @@ const CreateProductModal = ({
     setFormData({
       ...formData,
       [name]:
-        name === "price" || name === "stockQuantity" || name === "rating"
+        name === "organizationId" ||name === "price" || name === "stockQuantity" || name === "rating"
           ? value === ""
             ? ""
             : parseFloat(value) // Check for empty string
