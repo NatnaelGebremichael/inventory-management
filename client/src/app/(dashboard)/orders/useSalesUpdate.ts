@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useCreateSaleMutation } from "@/state/api";
-import { Product } from '@/state/api';
-import { SaleProduct, Sale } from './salesTypes';
+import { Product, SaleProduct, Sale } from '@/state/api';
 
 export const useSalesUpdate = () => {
   const [products, setProducts] = useState<SaleProduct[]>([]);
@@ -37,7 +36,7 @@ export const useSalesUpdate = () => {
   const handleSubmit = useCallback(async () => {
     try {
       const sales: Sale[] = products.map(product => ({
-        productId: product.productId,
+        productId: product.id,
         quantity: product.quantity,
         unitPrice: product.price,
         totalAmount: product.price * product.quantity

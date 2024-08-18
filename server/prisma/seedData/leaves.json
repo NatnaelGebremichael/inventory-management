@@ -1,18 +1,18 @@
 [
-    {
-      "id": "leave1",
-      "employmentId": "emp1",
-      "type": "ANNUAL",
-      "startDate": "2023-08-20T00:00:00Z",
-      "endDate": "2023-08-25T00:00:00Z",
-      "status": "APPROVED"
-    },
-    {
-      "id": "leave2",
-      "employmentId": "emp2",
-      "type": "SICK",
-      "startDate": "2023-08-22T00:00:00Z",
-      "endDate": "2023-08-23T00:00:00Z",
-      "status": "APPROVED"
-    }
-  ]
+  {
+    "id": "leave1",
+    "employmentId": "emp1",
+    "type": "ANNUAL",
+    "startDate": "2024-08-20T00:00:00Z",
+    "endDate": "2024-08-25T00:00:00Z",
+    "status": "APPROVED"
+  },
+  {
+    "id": "leave2",
+    "employmentId": "emp2",
+    "type": "SICK",
+    "startDate": "2024-08-18T00:00:00Z",
+    "endDate": "2024-08-19T00:00:00Z",
+    "status": "PENDING"
+  }
+]

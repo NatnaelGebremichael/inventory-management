@@ -1,10 +1,12 @@
 [
-    {
-      "id": "cat1",
-      "name": "Electronics"
-    },
-    {
-      "id": "cat2",
-      "name": "Office Supplies"
-    }
-  ]
+  {
+    "id": "cat1",
+    "organizationId": "org1",
+    "name": "Electronics"
+  },
+  {
+    "id": "cat2",
+    "organizationId": "org2",
+    "name": "Renewable Energy"
+  }
+]

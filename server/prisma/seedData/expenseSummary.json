@@ -1,14 +1,14 @@
 [
   {
     "id": "es1",
-    "period": "2023-08-01T00:00:00Z",
-    "totalExpenses": 15000,
-    "sourceDataHash": "hash_placeholder_5"
+    "period": "2024-08-01T00:00:00Z",
+    "totalExpenses": 5000.00,
+    "sourceDataHash": "hash5"
   },
   {
     "id": "es2",
-    "period": "2023-09-01T00:00:00Z",
-    "totalExpenses": 18000,
-    "sourceDataHash": "hash_placeholder_6"
+    "period": "2024-07-01T00:00:00Z",
+    "totalExpenses": 4500.00,
+    "sourceDataHash": "hash6"
   }
 ]

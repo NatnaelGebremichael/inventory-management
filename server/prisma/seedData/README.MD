@@ -1,3 +1,9 @@
+## DB seeding instructions
+``` npx prisma generate ```
+``` npx prisma migrate reset ``` If Db schema already exists
+``` npx prisma migrate dev --name init_new_schema ```
+``` npm run seed ```
+
 # Updated Schema Relationships and Logic
 ## Core Entities
 

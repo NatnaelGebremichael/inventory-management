@@ -18,7 +18,7 @@ const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan }) => {
   const { ref } = useZxing({
     onDecodeResult(result) {
       const scannedCode = result.getText();
-      const scannedProduct = products?.find((p) => p.productId === scannedCode);
+      const scannedProduct = products?.find((p) => p.id === scannedCode);
       if (scannedProduct) {
         onScan(scannedProduct);
         setIsScanning(false);

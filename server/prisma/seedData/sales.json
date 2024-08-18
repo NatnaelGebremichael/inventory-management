@@ -3,18 +3,18 @@
     "id": "sale1",
     "productId": "prod1",
     "userId": "user1",
-    "timestamp": "2023-08-15T10:00:00Z",
-    "quantity": 1,
-    "unitPrice": 15000,
-    "totalAmount": 15000
+    "timestamp": "2024-08-17T10:00:00Z",
+    "quantity": 2,
+    "unitPrice": 999.99,
+    "totalAmount": 1999.98
   },
   {
     "id": "sale2",
     "productId": "prod2",
     "userId": "user2",
-    "timestamp": "2023-08-16T14:30:00Z",
-    "quantity": 2,
-    "unitPrice": 8000,
-    "totalAmount": 16000
+    "timestamp": "2024-08-17T11:00:00Z",
+    "quantity": 5,
+    "unitPrice": 299.99,
+    "totalAmount": 1499.95
   }
 ]

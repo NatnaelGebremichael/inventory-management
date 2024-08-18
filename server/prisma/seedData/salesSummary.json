@@ -1,18 +1,18 @@
 [
-    {
-      "id": "ss1",
-      "period": "2023-08-01T00:00:00Z",
-      "totalSales": 31000,
-      "totalQuantity": 3,
-      "averageOrderSize": 15500,
-      "sourceDataHash": "hash_placeholder_1"
-    },
-    {
-      "id": "ss2",
-      "period": "2023-09-01T00:00:00Z",
-      "totalSales": 45000,
-      "totalQuantity": 5,
-      "averageOrderSize": 9000,
-      "sourceDataHash": "hash_placeholder_2"
-    }
-  ]
+  {
+    "id": "ss1",
+    "period": "2024-08-01T00:00:00Z",
+    "totalSales": 15000.50,
+    "totalQuantity": 75,
+    "averageOrderSize": 200.01,
+    "sourceDataHash": "hash1"
+  },
+  {
+    "id": "ss2",
+    "period": "2024-07-01T00:00:00Z",
+    "totalSales": 12500.75,
+    "totalQuantity": 60,
+    "averageOrderSize": 208.35,
+    "sourceDataHash": "hash2"
+  }
+]

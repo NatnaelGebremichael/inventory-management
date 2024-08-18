@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Barcode from "react-barcode";
-import { useGetProductsQuery } from "@/state/api";
+import { useGetProductsQuery,  } from "@/state/api";
 import {
   Card,
   CardContent,
@@ -17,7 +17,7 @@ import {
 import { Search, Printer } from "lucide-react";
 
 interface Product {
-  productId: string;
+  id: string;
   name: string;
   price: number;
 }
@@ -70,18 +70,18 @@ function  BarcodeGenerator () {
             <FormControl fullWidth sx={{ mb: 2 }}>
               <InputLabel>Select a product</InputLabel>
               <Select
-                value={selectedProduct ? selectedProduct.productId : ""}
+                value={selectedProduct ? selectedProduct.id : ""}
                 onChange={(e) => {
                   const selected = products.find(
-                    (p) => p.productId === e.target.value
+                    (p) => p.id === e.target.value
                   );
                   setSelectedProduct(selected || null);
                 }}
                 label="Select a product"
               >
                 {products.map((product: Product) => (
-                  <MenuItem key={product.productId} value={product.productId}>
-                    {product.name} (ID: {product.productId})
+                  <MenuItem key={product.id} value={product.id}>
+                    {product.name} (ID: {product.id})
                   </MenuItem>
                 ))}
               </Select>
@@ -104,7 +104,7 @@ function  BarcodeGenerator () {
                   marginTop: 16,
                 }}
               >
-                <Barcode value={selectedProduct.productId.toString()} />
+                <Barcode value={selectedProduct.id.toString()} />
               </div>
             </div>
           )}

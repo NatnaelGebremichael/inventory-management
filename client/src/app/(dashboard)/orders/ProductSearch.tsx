@@ -29,15 +29,15 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ onSelect }) => {
           fullWidth
           onChange={(e) => {
             const product = products.find(
-              (p) => p.productId === e.target.value
+              (p) => p.id === e.target.value
             );
             if (product) onSelect(product);
           }}
         >
           <MenuItem value="">Select a product</MenuItem>
           {products.map((product) => (
-            <MenuItem key={product.productId} value={product.productId}>
-              {product.name} (ID: {product.productId})
+            <MenuItem key={product.id} value={product.id}>
+              {product.name} (ID: {product.id})
             </MenuItem>
           ))}
         </Select>

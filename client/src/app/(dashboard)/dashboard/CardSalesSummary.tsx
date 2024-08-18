@@ -18,9 +18,9 @@ const CardSalesSummary = () => {
 
   const salesData = useMemo(() => {
     if (!data?.salesSummary) return [];
-    
-    const sortedData = [...data.salesSummary].sort((a, b) => 
-      new Date(a.period).getTime() - new Date(b.period).getTime()
+
+    const sortedData = [...data.salesSummary].sort(
+      (a, b) => new Date(a.period).getTime() - new Date(b.period).getTime()
     );
 
     return sortedData.map((sale, index, array) => {
@@ -28,18 +28,25 @@ const CardSalesSummary = () => {
         return { ...sale, changePercentage: 0 };
       }
       const previousSale = array[index - 1];
-      const changePercentage = ((sale.totalSales - previousSale.totalSales) / previousSale.totalSales) * 100;
+      const changePercentage =
+        ((sale.totalSales - previousSale.totalSales) /
+          previousSale.totalSales) *
+        100;
       return { ...sale, changePercentage };
     });
   }, [data]);
 
-  const totalSalesSum = useMemo(() => 
-    salesData.reduce((acc, curr) => acc + curr.totalSales, 0) || 0
-  , [salesData]);
+  const totalSalesSum = useMemo(
+    () => salesData.reduce((acc, curr) => acc + curr.totalSales, 0) || 0,
+    [salesData]
+  );
 
-  const averageChangePercentage = useMemo(() => 
-    salesData.reduce((acc, curr) => acc + curr.changePercentage, 0) / (salesData.length - 1) || 0
-  , [salesData]);
+  const averageChangePercentage = useMemo(
+    () =>
+      salesData.reduce((acc, curr) => acc + curr.changePercentage, 0) /
+        (salesData.length - 1) || 0,
+    [salesData]
+  );
 
   const highestValueData = salesData.reduce((acc, curr) => {
     return acc.totalSales > curr.totalSales ? acc : curr;
@@ -79,7 +86,7 @@ const CardSalesSummary = () => {
                 <p className="text-xs text-gray-400">Value</p>
                 <span className="text-2xl font-extrabold">
                   $
-                  {(totalSalesSum).toLocaleString("en", {
+                  {totalSalesSum.toLocaleString("en", {
                     maximumFractionDigits: 2,
                   })}
                 </span>

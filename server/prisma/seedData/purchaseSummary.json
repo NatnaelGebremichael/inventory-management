@@ -1,18 +1,18 @@
 [
   {
     "id": "ps1",
-    "period": "2023-08-01T00:00:00Z",
-    "totalPurchases": 240000,
-    "totalQuantity": 30,
-    "averageOrderValue": 120000,
-    "sourceDataHash": "hash_placeholder_3"
+    "period": "2024-08-01T00:00:00Z",
+    "totalPurchases": 10000.00,
+    "totalQuantity": 50,
+    "averageOrderValue": 200.00,
+    "sourceDataHash": "hash3"
   },
   {
     "id": "ps2",
-    "period": "2023-09-01T00:00:00Z",
-    "totalPurchases": 180000,
-    "totalQuantity": 25,
-    "averageOrderValue": 90000,
-    "sourceDataHash": "hash_placeholder_4"
+    "period": "2024-07-01T00:00:00Z",
+    "totalPurchases": 8500.00,
+    "totalQuantity": 40,
+    "averageOrderValue": 212.50,
+    "sourceDataHash": "hash4"
   }
 ]

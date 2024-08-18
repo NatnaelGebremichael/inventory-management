@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
@@ -14,7 +13,7 @@ export const getProducts = async (
             where: {
                 name: {
                     contains: search,
-                    mode: 'insensitive', // This makes the search case-insensitive
+                    mode: 'insensitive',
                 }
             }
          });   
@@ -30,14 +29,15 @@ export const createProduct = async (
     res: Response
 ): Promise<void> => {
     try {
-         const { name, price, rating, stockQuantity } = req.body;
+         const { name, price, rating, stockQuantity, organizationId } = req.body;
          
          const product = await prisma.product.create({
             data: {
                 name,
                 price,
                 rating,
-                stockQuantity
+                stockQuantity,
+                organizationId
             }
          });
          res.status(201).json(product);

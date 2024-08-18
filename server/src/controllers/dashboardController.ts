@@ -34,41 +34,34 @@ export const getDashboardMetrics = async (
       sales: undefined
     }));
 
-    const salesSummary = await prisma.salesSummary.findMany({
-      take: 5,
-      orderBy: {
-        period: "desc",
-      },
-    });
-
-    const purchaseSummary = await prisma.purchaseSummary.findMany({
-      take: 5,
-      orderBy: {
-        period: "desc",
-      },
-    });
-
-    const expenseSummary = await prisma.expenseSummary.findMany({
-      take: 5,
-      orderBy: {
-        period: "desc",
-      },
-    });
-
-    const expenseByCategorySummaryRaw = await prisma.expenseByCategory.findMany({
-      take: 5,
-      include: {
-        category: true,
-        expenseSummary: true,
-      },
-      orderBy: {
-        expenseSummary: {
-          period: "desc",
+    const [salesSummary, purchaseSummary, expenseSummary, expenseByCategorySummary] = await Promise.all([
+      prisma.salesSummary.findMany({
+        take: 5,
+        orderBy: { period: "desc" },
+      }),
+      prisma.purchaseSummary.findMany({
+        take: 5,
+        orderBy: { period: "desc" },
+      }),
+      prisma.expenseSummary.findMany({
+        take: 5,
+        orderBy: { period: "desc" },
+      }),
+      prisma.expenseByCategory.findMany({
+        take: 5,
+        include: {
+          category: true,
+          expenseSummary: true,
         },
-      },
-    });
+        orderBy: {
+          expenseSummary: {
+            period: "desc",
+          },
+        },
+      }),
+    ]);
 
-    const expenseByCategorySummary = expenseByCategorySummaryRaw.map((item) => ({
+    const formattedExpenseByCategorySummary = expenseByCategorySummary.map((item) => ({
       id: item.id,
       categoryName: item.category.name,
       amount: item.amount.toString(),
@@ -80,7 +73,7 @@ export const getDashboardMetrics = async (
       salesSummary,
       purchaseSummary,
       expenseSummary,
-      expenseByCategorySummary,
+      expenseByCategorySummary: formattedExpenseByCategorySummary,
     });
   } catch (error) {
     console.error("Error retrieving dashboard metrics:", error);

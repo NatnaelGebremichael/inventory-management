@@ -1,25 +1,23 @@
 [
   {
-    "id": "purch1",
+    "id": "purchase1",
     "productId": "prod1",
     "userId": "user1",
-    "timestamp": "2023-08-10T09:00:00Z",
+    "timestamp": "2024-08-16T09:00:00Z",
     "quantity": 10,
-    "unitCost": 12000,
-    "totalCost": 120000,
-    "paymentType": "PAID",
-    "isPaid": true
+    "unitCost": 800,
+    "totalCost": 8000,
+    "paymentType": "PAID"
   },
   {
-    "id": "purch2",
+    "id": "purchase2",
     "productId": "prod2",
     "userId": "user2",
-    "timestamp": "2023-08-11T11:00:00Z",
+    "timestamp": "2024-08-16T10:00:00Z",
     "quantity": 20,
-    "unitCost": 6000,
-    "totalCost": 120000,
+    "unitCost": 250,
+    "totalCost": 5000,
     "paymentType": "DEBT",
-    "dueDate": "2023-09-11T11:00:00Z",
-    "isPaid": false
+    "dueDate": "2024-09-16T10:00:00Z"
   }
 ]
