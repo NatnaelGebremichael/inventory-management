@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useCreateProductMutation } from "@/state/api";
 import { TextField, Button } from "@mui/material";
 import { Product, NewProduct } from "@/state/api";
-import { useUser } from "@clerk/clerk-react";
 import { useParams } from "next/navigation";
 
 interface ManualEntryProps {
@@ -11,21 +10,13 @@ interface ManualEntryProps {
 
 const ManualEntry: React.FC<ManualEntryProps> = ({ onAdd }) => {
   const [name, setName] = useState("");
+  const params = useParams();
   const [price, setPrice] = useState("");
   const [stockQuantity, setStockQuantity] = useState("");
   const [createProduct] = useCreateProductMutation();
-  const { user, isLoaded, isSignedIn } = useUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (!isLoaded) {
-      return <p>Loading...</p>;
-    }
 
-    if (!isSignedIn) {
-      return <p>User is not signed in</p>;
-    }
-
-    const params = useParams();
     const organizationID = params.organizationId as string;
     e.preventDefault();
     const newProduct: NewProduct = {
