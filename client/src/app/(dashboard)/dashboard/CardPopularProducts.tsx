@@ -1,4 +1,4 @@
-import { useGetDashboardMetricsQuery } from "@/state/api";
+import { useGetDashboardMetricsQuery } from "@/state/api/dashboardApi";
 import { ShoppingBag } from "lucide-react";
 import React from "react";
 import Image from "next/image";

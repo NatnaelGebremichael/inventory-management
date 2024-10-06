@@ -3,7 +3,7 @@ import { SignUp } from "@clerk/nextjs";
 export default function Page() {
   return (
     <div className="flex justify-center p-5">
-      <SignUp />
+      <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" />
     </div>
   );
 }

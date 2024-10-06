@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Barcode from "react-barcode";
-import { useGetProductsQuery,  } from "@/state/api";
+import { useGetProductsQuery } from "@/state/api/productApi";
 import {
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { Search, Printer } from "lucide-react";
+import { useOrganization } from "@clerk/nextjs";
 
 interface Product {
   id: string;
@@ -22,11 +23,20 @@ interface Product {
   price: number;
 }
 
-function  BarcodeGenerator () {
+function BarcodeGenerator() {
   const [search, setSearch] = useState("");
+  const { organization } = useOrganization();
+  const organizationID = organization?.id;
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const { data: products, isLoading, isError } = useGetProductsQuery(search);
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useGetProductsQuery({
+    search,
+    organizationId: organizationID!,
+  });
 
   const handlePrint = () => {
     const printContent = document.getElementById("printableBarcode");
@@ -124,6 +134,6 @@ function  BarcodeGenerator () {
       </Card>
     </div>
   );
-};
+}
 
 export default BarcodeGenerator;

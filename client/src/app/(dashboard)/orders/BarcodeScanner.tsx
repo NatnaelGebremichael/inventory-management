@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { Button, Dialog, DialogContent, DialogActions } from "@mui/material";
 import { Barcode } from "lucide-react";
 import { useZxing } from "react-zxing";
-import { useGetProductsQuery } from "@/state/api";
-import { Product } from "@/state/api";
+import { useGetProductsQuery } from "@/state/api/productApi";
+import { Product } from "@/state/api/productApi";
+import { useOrganization } from "@clerk/nextjs";
 
 interface BarcodeScannerProps {
   onScan: (product: Product) => void;
@@ -13,7 +14,17 @@ interface BarcodeScannerProps {
 
 const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan }) => {
   const [isScanning, setIsScanning] = useState(false);
-  const { data: products } = useGetProductsQuery();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { organization } = useOrganization();
+  const organizationID = organization?.id;
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useGetProductsQuery({
+    search: searchTerm,
+    organizationId: organizationID!,
+  });
 
   const { ref } = useZxing({
     onDecodeResult(result) {

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Header from "@/app/(components)/Header";
-import { useParams } from "next/navigation";
+import { useOrganization } from "@clerk/nextjs";
 
 type ProductFormData = {
-  organizationId: string,
+  organizationId: string | undefined;
   name: string;
   price: number;
   rating?: number;
@@ -16,13 +16,13 @@ type CreateProductModalProps = {
   onCreate: (formData: ProductFormData) => void;
 };
 
-const params = useParams();
-const organizationID = params.organizationId as string;
 const CreateProductModal = ({
   isOpen,
   onClose,
   onCreate,
 }: CreateProductModalProps) => {
+  const { organization } = useOrganization();
+  const organizationID = organization?.id;
   const [formData, setFormData] = useState({
     organizationId: organizationID,
     name: "",
@@ -36,7 +36,10 @@ const CreateProductModal = ({
     setFormData({
       ...formData,
       [name]:
-        name === "organizationId" ||name === "price" || name === "stockQuantity" || name === "rating"
+        name === "organizationId" ||
+        name === "price" ||
+        name === "stockQuantity" ||
+        name === "rating"
           ? value === ""
             ? ""
             : parseFloat(value) // Check for empty string

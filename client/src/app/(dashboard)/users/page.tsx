@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUsersQuery } from "@/state/api";
+import { useGetUsersQuery } from "@/state/api/userApi";
 import Header from "@/app/(components)/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
@@ -19,9 +19,7 @@ function Users() {
 
   if (isError || !users) {
     return (
-      <div className="text-center text-red-500 py-4">
-        Failed to fetch users
-      </div>
+      <div className="text-center text-red-500 py-4">Failed to fetch users</div>
     );
   }
 

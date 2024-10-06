@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useCreateSaleMutation } from "@/state/api";
+import { useCreateSaleMutation } from "@/state/api/saleApi";
 import { Product, SaleProduct, Sale } from '@/state/api';
 
 export const useSalesUpdate = () => {

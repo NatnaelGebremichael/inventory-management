@@ -1,8 +1,10 @@
 "use client";
 
-import { useGetProductsQuery } from "@/state/api";
+import { useGetProductsQuery } from "@/state/api/productApi";
 import Header from "@/app/(components)/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useOrganization } from "@clerk/nextjs";
+import { useState } from "react";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -30,7 +32,17 @@ const columns: GridColDef[] = [
 ];
 
 function Inventory() {
-  const { data: products, isError, isLoading } = useGetProductsQuery();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { organization } = useOrganization();
+  const organizationID = organization?.id;
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useGetProductsQuery({
+    search: searchTerm,
+    organizationId: organizationID!,
+  });
 
   if (isLoading) {
     return <div className="py-4">Loading..</div>;

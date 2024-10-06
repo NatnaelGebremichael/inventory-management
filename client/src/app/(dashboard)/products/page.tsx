@@ -1,16 +1,19 @@
 "use client";
 
-import { useCreateProductMutation, useGetProductsQuery } from "@/state/api";
-import Header from "@/app/(components)/Header";
-import { PlusCircle, SearchIcon } from "lucide-react";
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
+import { PlusCircle, SearchIcon } from "lucide-react";
+import { useOrganization } from "@clerk/nextjs";
+import {
+  useCreateProductMutation,
+  useGetProductsQuery,
+} from "@/state/api/productApi";
+import Header from "@/app/(components)/Header";
 import Rating from "../../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
-import { useParams } from "next/navigation";
 
 type ProductFormData = {
-  organizationId: string;
+  organizationId: string | undefined;
   name: string;
   price: number;
   rating?: number;
@@ -18,26 +21,37 @@ type ProductFormData = {
 };
 
 function Products() {
-  const params = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { organization } = useOrganization();
+  const [createProduct] = useCreateProductMutation();
+  const organizationID = organization?.id;
   const {
     data: products,
     isLoading,
     isError,
-  } = useGetProductsQuery(searchTerm);
-
-  const organizationID = params.organizationId as string;
-  const [createProduct] = useCreateProductMutation();
+  } = useGetProductsQuery({
+    search: searchTerm,
+    organizationId: organizationID!,
+  });
 
   const handleCreateProduct = async (productData: ProductFormData) => {
-    productData.organizationId = organizationID;
-    await createProduct(productData);
+    if (organizationID) {
+      await createProduct({ ...productData, organizationId: organizationID });
+    } else {
+      console.error("No organization ID available");
+      // Handle the case where there's no organization ID
+    }
   };
 
   if (isLoading) {
     return <div className="py-4">Loading..</div>;
+  }
+
+  if (!organizationID) {
+    return (
+      <div>No organization found. Please join or create an organization.</div>
+    );
   }
 
   if (isError || !products) {

@@ -1,9 +1,9 @@
-import DashboardWrapper from "./dashboardWrapper";
+import DashboardWrrapper from "./dashboardWrapper";
 
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <DashboardWrapper>{children}</DashboardWrapper>;
+  return <DashboardWrrapper>{children}</DashboardWrrapper>;
 }

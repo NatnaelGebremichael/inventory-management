@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useGetProductsQuery } from "@/state/api";
+import { useGetProductsQuery } from "@/state/api/productApi";
 import { TextField, Select, MenuItem } from "@mui/material";
 import { Search } from "lucide-react";
-import { Product } from "@/state/api";
+import { Product } from "@/state/api/productApi";
+import { useOrganization } from "@clerk/nextjs";
 
 interface ProductSearchProps {
   onSelect: (product: Product) => void;
@@ -10,7 +11,17 @@ interface ProductSearchProps {
 
 const ProductSearch: React.FC<ProductSearchProps> = ({ onSelect }) => {
   const [search, setSearch] = useState("");
-  const { data: products, isLoading, isError } = useGetProductsQuery(search);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { organization } = useOrganization();
+  const organizationID = organization?.id;
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useGetProductsQuery({
+    search: searchTerm,
+    organizationId: organizationID!,
+  });
 
   return (
     <div>
@@ -28,9 +39,7 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ onSelect }) => {
         <Select
           fullWidth
           onChange={(e) => {
-            const product = products.find(
-              (p) => p.id === e.target.value
-            );
+            const product = products.find((p) => p.id === e.target.value);
             if (product) onSelect(product);
           }}
         >

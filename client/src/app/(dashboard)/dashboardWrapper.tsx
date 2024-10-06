@@ -4,15 +4,8 @@ import Navbar from "@/app/(components)/Navbar";
 import Sidebar from "@/app/(components)/Sidebar";
 import StoreProvider, { useAppSelector } from "../redux";
 import { useEffect } from "react";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardWrrapper = ({ children }: { children: React.ReactNode }) => {
   const isSidebarCollapased = useAppSelector(
     (state) => state.global.isSidebarCollapsed
   );
@@ -45,12 +38,4 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <StoreProvider>
-      <DashboardLayout>{children}</DashboardLayout>
-    </StoreProvider>
-  );
-};
-
-export default DashboardWrapper;
+export default DashboardWrrapper;

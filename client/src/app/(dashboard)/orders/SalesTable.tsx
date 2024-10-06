@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Trash2 } from "lucide-react";
-import { SaleProduct } from "@/state/api";
+import { SaleProduct } from "@/state/api/saleApi";
 
 interface SalesTableProps {
   products: SaleProduct[];
