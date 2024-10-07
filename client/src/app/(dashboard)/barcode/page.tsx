@@ -106,7 +106,12 @@ function BarcodeGenerator() {
               <h3 style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
                 {selectedProduct.name}
               </h3>
-              <p>Price: ${selectedProduct.price.toFixed(2)}</p>
+              <p>
+                Price: $
+                {isNaN(Number(selectedProduct.price))
+                  ? "N/A"
+                  : Number(selectedProduct.price).toFixed(2)}
+              </p>
               <div
                 style={{
                   display: "flex",

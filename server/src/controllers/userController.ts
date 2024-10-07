@@ -5,7 +5,12 @@ const prisma = new PrismaClient();
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
-        const users = await prisma.user.findMany();
+        const { organizationId } = req.body;
+
+        const users = await prisma.employee.findMany({
+            where: { organizationId },
+        }
+        );
         res.json(users);
     } catch (error) {
         console.error("Error retrieving users:", error);
@@ -18,14 +23,16 @@ export const createUser = async (
     res: Response
 ): Promise<void> => {
     try {
-        const { id, name, email, role } = req.body;
-        const user = await prisma.user.create({
+        const { id, firstName, lastName, organizationId, position, hireDate, salary } = req.body;
+        const user = await prisma.employee.create({
            data: {
                id,
-               name,
-               email,
-               role,
-               createdAt: new Date().toISOString(), // Set the current time as an ISO string
+               organizationId,
+               firstName,
+               lastName,
+               position,
+               hireDate,
+               salary,
            }
         });
         res.json(user);
@@ -42,7 +49,7 @@ export const updateUser = async (
     try {
         const { id } = req.params;
         const { organizationId } = req.body;
-        const user = await prisma.user.update({
+        const user = await prisma.employee.update({
            where: { id },
            data: { organizationId }
         });

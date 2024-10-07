@@ -1,0 +1,29 @@
+[
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Apple",
+      "description": "Fresh red apples",
+      "price": 1.50,
+      "stockQuantity": 100,
+      "reorderPoint": 20,
+      "categoryId": "1"
+    },
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Bread",
+      "description": "Whole wheat bread",
+      "price": 2.00,
+      "stockQuantity": 50,
+      "reorderPoint": 10,
+      "categoryId": "2"
+    },
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Milk",
+      "description": "1 gallon whole milk",
+      "price": 3.50,
+      "stockQuantity": 30,
+      "reorderPoint": 5,
+      "categoryId": "3"
+    }
+  ]

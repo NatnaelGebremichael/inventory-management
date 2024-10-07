@@ -11,7 +11,7 @@ const columns: GridColDef[] = [
   { field: "position", headerName: "Position", width: 200 },
 ];
 
-function Users() {
+function StockRecipt() {
   const { data: users, isError, isLoading } = useGetUsersQuery();
 
   if (isLoading) {
@@ -38,4 +38,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default StockRecipt;

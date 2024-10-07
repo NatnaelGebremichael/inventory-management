@@ -8,7 +8,7 @@ export interface newUser {
   createdAt: string;
 }
 
-export interface User {
+export interface Employee {
   id: string;
   organizationId: string;
   name: string;
@@ -19,9 +19,9 @@ export interface User {
   deletedAt?: string;
 }
 
-export const userApi = baseApi.injectEndpoints({
+export const employeeApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getUsers: build.query<User[], void>({
+    getUsers: build.query<Employee[], void>({
       query: () => "/users",
       providesTags: ["Users"]
     }),
@@ -33,7 +33,7 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Users"]
     }),
-    updateUser: build.mutation<User, Partial<User>>({
+    updateUser: build.mutation<Employee, Partial<Employee>>({
       query: (updatedUser) => ({
         url: `/users/${updatedUser.id}`,
         method: "PATCH",
@@ -44,4 +44,4 @@ export const userApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetUsersQuery, useCreateUserMutation, useUpdateUserMutation } = userApi;
+export const { useGetUsersQuery, useCreateUserMutation, useUpdateUserMutation } = employeeApi;

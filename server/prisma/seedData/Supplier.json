@@ -1,0 +1,20 @@
+[
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "FreshFruit Co.",
+      "contactPerson": "Bob Green",
+      "phone": "555-2468",
+      "email": "bob@freshfruit.com",
+      "address": "789 Orchard Rd, City C, 13579",
+      "leadTimeDays": 3
+    },
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Bakery Supplies Inc.",
+      "contactPerson": "Alice Brown",
+      "phone": "555-1357",
+      "email": "alice@bakerysupplies.com",
+      "address": "321 Flour St, City D, 24680",
+      "leadTimeDays": 2
+    }
+  ]

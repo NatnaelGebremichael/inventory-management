@@ -1,0 +1,16 @@
+[
+    {
+      "id": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Supermarket A",
+      "address": "123 Main St, City A, 12345",
+      "phone": "555-1234",
+      "email": "info@supermarketa.com"
+    },
+    {
+      "id": "2",
+      "name": "Supermarket B",
+      "address": "456 Oak St, City B, 67890",
+      "phone": "555-5678",
+      "email": "info@supermarketb.com"
+    }
+  ]

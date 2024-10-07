@@ -1,0 +1,26 @@
+[
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "firstName": "John",
+      "lastName": "Doe",
+      "position": "Manager",
+      "hireDate": "2020-01-15T00:00:00Z",
+      "salary": 50000
+    },
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "position": "Cashier",
+      "hireDate": "2021-03-01T00:00:00Z",
+      "salary": 30000
+    },
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "firstName": "Mike",
+      "lastName": "Johnson",
+      "position": "Manager",
+      "hireDate": "2019-11-01T00:00:00Z",
+      "salary": 52000
+    }
+  ]

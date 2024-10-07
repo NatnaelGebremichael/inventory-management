@@ -1,39 +1,35 @@
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+if (!process.env.DATABASE_URL) {
+  console.error("DATABASE_URL is not set in the environment variables.");
+  process.exit(1);
+}
+
 const prisma = new PrismaClient();
 
+type ModelName = "organization" | "employee" | "category" | "product" | "supplier" | "customer";
+
 async function deleteAllData() {
-  const deleteOrder = [
-    "Leave",
-    "Employment",
-    "Waste",
-    "ExpenseByCategory",
-    "ExpenseSummary",
-    "PurchaseSummary",
-    "SalesSummary",
-    "Expense",
-    "Sale",
-    "Purchase",
-    "Product",
-    "Category",
-    "User",
-    "Organization"
+  const deleteOrder: ModelName[] = [
+    "customer",
+    "product",
+    "category",
+    "supplier",
+    "employee",
+    "organization"
   ];
 
   for (const modelName of deleteOrder) {
-    const model: any = prisma[modelName.toLowerCase() as keyof typeof prisma];
-    if (model) {
-      try {
-        await model.deleteMany({});
-        console.log(`Cleared data from ${modelName}`);
-      } catch (error) {
-        console.error(`Error clearing data from ${modelName}:`, error);
-      }
-    } else {
-      console.error(
-        `Model ${modelName} not found. Please ensure the model name is correctly specified.`
-      );
+    try {
+      await (prisma[modelName] as any).deleteMany({});
+      console.log(`Cleared data from ${modelName}`);
+    } catch (error) {
+      console.error(`Error clearing data from ${modelName}:`, error);
     }
   }
 }
@@ -42,19 +38,12 @@ async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
   const seedFiles = [
-    { file: "organizations.json", model: "organization" },
-    { file: "users.json", model: "user" },
-    { file: "categories.json", model: "category" },
-    { file: "products.json", model: "product" },
-    { file: "purchases.json", model: "purchase" },
-    { file: "sales.json", model: "sale" },
-    { file: "expenses.json", model: "expense" },
-    { file: "employments.json", model: "employment" },
-    { file: "leaves.json", model: "leave" },
-    { file: "salesSummary.json", model: "salesSummary" },
-    { file: "purchaseSummary.json", model: "purchaseSummary" },
-    { file: "expenseSummary.json", model: "expenseSummary" },
-    { file: "expenseByCategory.json", model: "expenseByCategory" }
+    { file: "Organization.json", model: "organization" as ModelName },
+    { file: "Employee.json", model: "employee" as ModelName },
+    { file: "Category.json", model: "category" as ModelName },
+    { file: "Product.json", model: "product" as ModelName },
+    { file: "Supplier.json", model: "supplier" as ModelName },
+    { file: "Customer.json", model: "customer" as ModelName }
   ];
 
   await deleteAllData();
@@ -66,15 +55,9 @@ async function main() {
       continue;
     }
     const jsonData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    const prismaModel: any = prisma[model as keyof typeof prisma];
-
-    if (!prismaModel) {
-      console.error(`No Prisma model matches the model name: ${model}`);
-      continue;
-    }
+    const prismaModel = prisma[model];
 
     for (const data of jsonData) {
-      // Convert date strings to Date objects
       for (const key in data) {
         if (typeof data[key] === 'string' && data[key].match(/^\d{4}-\d{2}-\d{2}T/)) {
           data[key] = new Date(data[key]);
@@ -82,7 +65,7 @@ async function main() {
       }
 
       try {
-        await prismaModel.create({
+        await (prismaModel as any).create({
           data,
         });
       } catch (error) {
@@ -96,7 +79,7 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("Error in seed script:", e);
   })
   .finally(async () => {
     await prisma.$disconnect();

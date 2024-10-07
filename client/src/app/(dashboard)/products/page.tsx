@@ -11,14 +11,7 @@ import {
 import Header from "@/app/(components)/Header";
 import Rating from "../../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
-
-type ProductFormData = {
-  organizationId: string | undefined;
-  name: string;
-  price: number;
-  rating?: number;
-  stockQuantity: number;
-};
+import { NewProduct } from "@/state";
 
 function Products() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,9 +28,9 @@ function Products() {
     organizationId: organizationID!,
   });
 
-  const handleCreateProduct = async (productData: ProductFormData) => {
+  const handleCreateProduct = async (productData: NewProduct) => {
     if (organizationID) {
-      await createProduct({ ...productData, organizationId: organizationID });
+      // await createProduct({ ...productData, organizationId: organizationID });
     } else {
       console.error("No organization ID available");
       // Handle the case where there's no organization ID
@@ -108,7 +101,13 @@ function Products() {
               <h3 className="text-lg text-gray-900 font-semibold">
                 {product.name}
               </h3>
-              <p className="text-gray-800"> ${product.price.toFixed(2)}</p>
+              <p className="text-gray-800">
+                {" "}
+                $
+                {isNaN(Number(product.price))
+                  ? "N/A"
+                  : Number(product.price).toFixed(2)}
+              </p>
               <div className="text-sm text-gray-600 mt-1">
                 Stock: {product.stockQuantity}
               </div>

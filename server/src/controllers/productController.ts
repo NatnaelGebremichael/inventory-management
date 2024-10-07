@@ -71,9 +71,7 @@ export const createProduct = async (
                     organizationId,
                     name,
                     price,
-                    rating,
                     stockQuantity,
-                    createdAt: createdAt || new Date() // Use current date if not provided
                 }
              });
          });

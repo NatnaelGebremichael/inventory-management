@@ -1,0 +1,18 @@
+[
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "firstName": "Emily",
+      "lastName": "Davis",
+      "email": "emily@example.com",
+      "phone": "555-9876",
+      "address": "101 Pine St, City A, 12345"
+    },
+    {
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "firstName": "Tom",
+      "lastName": "Wilson",
+      "email": "tom@example.com",
+      "phone": "555-5432",
+      "address": "202 Maple Ave, City B, 67890"
+    }
+  ]

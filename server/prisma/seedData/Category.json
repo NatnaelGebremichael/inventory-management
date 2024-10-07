@@ -1,0 +1,20 @@
+[
+    {
+      "id": "1",
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Fruits",
+      "description": "Fresh fruits"
+    },
+    {
+      "id": "2",
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Bakery",
+      "description": "Baked goods"
+    },
+    {
+      "id": "3",
+      "organizationId": "org_2lRgvRl9oc9DTNRK0QW39eqUsJq",
+      "name": "Dairy",
+      "description": "Dairy products"
+    }
+  ]

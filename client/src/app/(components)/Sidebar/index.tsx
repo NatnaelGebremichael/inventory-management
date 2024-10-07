@@ -91,7 +91,7 @@ const Sidebar = () => {
             isSidebarCollapased ? "hidden" : "block"
           } font-extrabold text-2xl`}
         >
-          NatuStock
+          Stock
         </h1>
 
         <button
@@ -104,22 +104,28 @@ const Sidebar = () => {
 
       {/* LINKS */}
       <div className="flex-grow mt-8">
-        <SidebarLink
+        {/* <SidebarLink
           href="/dashboard"
           icon={Layout}
           label="Dashboard"
           isCollapsed={isSidebarCollapased}
-        />
-        <SidebarLink
+        /> */}
+        {/* <SidebarLink
           href="/inventory"
           icon={Archive}
           label="Inventory"
           isCollapsed={isSidebarCollapased}
-        />
+        /> */}
         <SidebarLink
           href="/products"
           icon={Clipboard}
           label="Products"
+          isCollapsed={isSidebarCollapased}
+        />
+        <SidebarLink
+          href="/stock"
+          icon={Clipboard}
+          label="Stock Recipt"
           isCollapsed={isSidebarCollapased}
         />
         <SidebarLink
@@ -128,19 +134,19 @@ const Sidebar = () => {
           label="Orders"
           isCollapsed={isSidebarCollapased}
         />
-        <SidebarLink
+        {/* <SidebarLink
           href="/barcode"
           icon={QrCode}
           label="Barcode"
           isCollapsed={isSidebarCollapased}
-        />
+        /> */}
         <SidebarLink
           href="/users"
           icon={Users}
           label="Users"
           isCollapsed={isSidebarCollapased}
         />
-        <SidebarLink
+        {/* <SidebarLink
           href="/expenses"
           icon={CircleDollarSign}
           label="Expenses"
@@ -151,7 +157,7 @@ const Sidebar = () => {
           icon={SlidersHorizontal}
           label="Settings"
           isCollapsed={isSidebarCollapased}
-        />
+        /> */}
       </div>
 
       {/* Footer */}

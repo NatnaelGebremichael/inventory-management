@@ -1,19 +1,13 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { NewProduct } from "@/state/api/productApi";
 import Header from "@/app/(components)/Header";
-import { useOrganization } from "@clerk/nextjs";
 
-type ProductFormData = {
-  organizationId: string | undefined;
-  name: string;
-  price: number;
-  rating?: number;
-  stockQuantity: number;
-};
+import { useOrganization } from "@clerk/nextjs";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
 type CreateProductModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (formData: ProductFormData) => void;
+  onCreate: (formData: NewProduct) => void;
 };
 
 const CreateProductModal = ({
@@ -24,11 +18,13 @@ const CreateProductModal = ({
   const { organization } = useOrganization();
   const organizationID = organization?.id;
   const [formData, setFormData] = useState({
-    organizationId: organizationID,
     name: "",
     price: 0,
     stockQuantity: 0,
-    rating: 0,
+    categoryId: "",
+    description: "",
+    reorderPoint: 0,
+    organizationId: organizationID ? organizationID : "Null",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -106,16 +102,44 @@ const CreateProductModal = ({
             required
           />
 
-          {/* RATING */}
-          <label htmlFor="rating" className={labelCssStyles}>
-            Rating
+          {/* category */}
+          <label htmlFor="categoryId" className={labelCssStyles}>
+            category
+          </label>
+          <input
+            type="text"
+            name="categoryId"
+            placeholder="Category"
+            onChange={handleChange}
+            value={formData.categoryId}
+            className={inputCssStyles}
+            required
+          />
+
+          {/* Description */}
+          <label htmlFor="description" className={labelCssStyles}>
+            Description
+          </label>
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            onChange={handleChange}
+            value={formData.description}
+            className={inputCssStyles}
+            required
+          />
+
+          {/* Reorder Point */}
+          <label htmlFor="reorderPoint" className={labelCssStyles}>
+            Reorder Point
           </label>
           <input
             type="number"
-            name="rating"
-            placeholder="Rating"
+            name="reorderPoint"
+            placeholder="Reorder Point"
             onChange={handleChange}
-            value={formData.rating}
+            value={formData.reorderPoint}
             className={inputCssStyles}
             required
           />

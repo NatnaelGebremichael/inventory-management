@@ -19,7 +19,7 @@ export const createOrganization = async (
 ): Promise<void> => {
     try {
         const { id, name, createdAt, userId } = req.body;
-        const user = await prisma.user.findUnique({
+        const user = await prisma.employee.findUnique({
             where: {
                 id: userId,
             }
@@ -34,8 +34,7 @@ export const createOrganization = async (
             data: {
                 id,
                 name,
-                createdAt,
-                users: {
+                employees: {
                     connect: { id: userId } // Connect the existing user by ID
                 }
             }

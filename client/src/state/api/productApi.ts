@@ -13,11 +13,13 @@ export interface Product {
 }
 
 export interface NewProduct {
-  organizationId: string;
   name: string;
   price: number;
-  rating?: number;
   stockQuantity: number;
+  categoryId: string;
+  description: string;
+  reorderPoint: number;
+  organizationId: string;
 }
 
 export interface PopularProduct extends Product {
