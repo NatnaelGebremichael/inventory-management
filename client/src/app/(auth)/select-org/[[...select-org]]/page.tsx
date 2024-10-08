@@ -2,19 +2,15 @@
 
 import { useUser, useOrganizationList, OrganizationList } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import {
-  User,
-  useCreateUserMutation,
-  useUpdateUserMutation,
-  useCreateOrganizationMutation,
-} from "../../../../state/api";
+import { Employees, useCreateEmployeesMutation, useUpdateEmployeesMutation,} from "@/state/api/employeeApi";
+import { useCreateOrganizationMutation } from "@/state/api/organizationApi";
 import { useRouter } from "next/navigation";
 
 export default function OrganizationPage() {
   const { user, isLoaded: isUserLoaded } = useUser();
   const { userMemberships, isLoaded: isOrgListLoaded } = useOrganizationList();
-  const [createUser] = useCreateUserMutation();
-  const [updateUser] = useUpdateUserMutation();
+  const [createUser] = useCreateEmployeesMutation();
+  const [updateUser] = useUpdateEmployeesMutation();
   const [createOrganization] = useCreateOrganizationMutation();
   const [userCreated, setUserCreated] = useState(false);
   const router = useRouter();
@@ -55,7 +51,7 @@ export default function OrganizationPage() {
           });
 
           // Update user with organization ID
-          const updatedUserData: Partial<User> = {
+          const updatedUserData: Partial<Employees> = {
             id: user.id,
             organizationId: org.id,
           };

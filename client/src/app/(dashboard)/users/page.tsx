@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUsersQuery } from "@/state/api/employeeApi";
+import { useGetEmployeesQuery } from "@/state/api/employeeApi";
 import Header from "@/app/(components)/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
@@ -12,7 +12,7 @@ const columns: GridColDef[] = [
 ];
 
 function Users() {
-  const { data: users, isError, isLoading } = useGetUsersQuery();
+  const { data: users, isError, isLoading } = useGetEmployeesQuery();
 
   if (isLoading) {
     return <div className="py-4">Loading..</div>;

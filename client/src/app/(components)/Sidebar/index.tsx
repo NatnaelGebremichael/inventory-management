@@ -123,6 +123,12 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapased}
         />
         <SidebarLink
+          href="/purchaseOrder"
+          icon={ShoppingCart}
+          label="Purchase Order"
+          isCollapsed={isSidebarCollapased}
+        />
+        <SidebarLink
           href="/stock"
           icon={Clipboard}
           label="Stock Recipt"
